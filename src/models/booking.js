@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    useId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       values: [INITIATED, PENDING, BOOKED, CANCELLED],
       defaultValue:INITIATED
-
     },
     noOfSeats: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      defaultValue:1
     },
     totalCost: {
       type: DataTypes.FLOAT,

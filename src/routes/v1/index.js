@@ -5,7 +5,7 @@ const bookingRoutes = require('./booking-routes')
 
 
 
-router.use('/bookings', cityRoutes);
+router.use('/bookings', bookingRoutes);
 
 
 router.get('/info',InfoController.info);
