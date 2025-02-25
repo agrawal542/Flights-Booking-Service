@@ -7,8 +7,8 @@ async function createBooking(req, res) {
     try {
         const booking = await BookingService.createBooking({
             flightId: req.body.flightId,
-            userId:req.body.userId,
-            noOfSeats:req.body.noOfSeats
+            userId: req.body.userId,
+            noOfSeats: req.body.noOfSeats
         })
         SuccessResponse.data = booking;
         return res.status(StatusCodes.CREATED).json(SuccessResponse);
@@ -18,6 +18,25 @@ async function createBooking(req, res) {
     }
 }
 
+async function makePayment(req, res) {
+    try {
+        const response = await BookingService.makePayment({
+            email: req.user.email,
+            totalCost: req.body.totalCost,
+            userId: req.body.userId,
+            bookingId: req.body.bookingId
+        });
+        SuccessResponse.data = response;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        console.log(error);
+        ErrorResponse.error = error;
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+}
+
+
 module.exports = {
-    createBooking
+    createBooking,
+    makePayment
 }
