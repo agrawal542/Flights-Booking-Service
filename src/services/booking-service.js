@@ -83,15 +83,18 @@ async function makePayment(data) {
 async function cancelBooking(bookingId) {
     const transaction = await sequelize.transaction();
     try {
+
         const bookingDetails = await bookingRepository.get(bookingId, transaction);
         if (bookingDetails.status == CANCELLED) {
             await transaction.commit();
             return true;
         }
+
         await axios.patch(`${ServerConfig.FLIGHT_SERVICE}/api/v1/flights/${bookingDetails.flightId}/seats`, {
             seats: bookingDetails.noOfSeats,
             dec: false
         });
+
         await bookingRepository.update(bookingId, { status: CANCELLED }, transaction);
         await transaction.commit();
     } catch (error) {
@@ -100,8 +103,20 @@ async function cancelBooking(bookingId) {
     }
 }
 
+async function cancelOldBookings() {
+    try {
+        const time = new Date(Date.now() - BOOKING_EXPIRED_TIME); // time 5 mins ago
+        const response = await bookingRepository.cancelOldBookings(time);
+        
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
     createBooking,
-    makePayment
+    makePayment,
+    cancelOldBookings
 }
