@@ -12,8 +12,10 @@ const BOOKING_STATUS = {
     CANCELLED: 'cancelled'
 }
 
+const BOOKING_EXPIRED_TIME = 300000; // 5 minutes (in milliseconds) 5*60*1000
 
 module.exports = {
     SEAT_TYPE,
-    BOOKING_STATUS
+    BOOKING_STATUS,
+    BOOKING_EXPIRED_TIME
 }
